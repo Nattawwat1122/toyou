@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Popup with Fireworks</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #e3a3ff;
+    overflow: hidden;
+  }
+
+  .popup {
+    width: 300px;
+    height: 300px;
+    background-color: rgb(226, 131, 196);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: scale(0); /* ย่อเล็กสุดก่อนเปิด */
+    opacity: 0;
+    animation: popUp 0.5s ease-out forwards;
+    color: rgb(18, 59, 196);
+    z-index: 10;
+    text-align: center;
+  }
+
+  @keyframes popUp {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    70% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .popup.active {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .popup-content {
+    padding: 30px;
+  }
+
+  .firework {
+    position: absolute;
+  width: 20px; /* ขนาดความกว้างของดาว */
+  height: 20px; /* ขนาดความสูงของดาว */
+  background-color: #fff; /* สีพื้นหลังของดาว */
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 
+                     50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation: explode 2s ease-out infinite; /* การระเบิด */
+  opacity: 0; /* เริ่มต้นด้วยความโปร่งใส */
+
+  }
+
+  @keyframes explode {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(3);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(0);
+      opacity: 0;
+    }
+
+
+    
+  }
+
+  
+</style>
+</head>
+<body>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h2>Happy New Year!</h2>
+    <p>I wish you a lot of happiness. I'm so happy to have you. I want to have you forever, you know? Thank you very much. 2024 was a very fun year. I did a lot of things. Let's continue in 2025. For what I did wrong, I apologize very much. And thank you very much for having each other. I love you very much.</p>
+  </div>
+</div>
+
+<script>
+  // เปิด pop-up เมื่อโหลดหน้า
+  window.onload = function () {
+    const popup = document.getElementById('popup');
+    popup.classList.add('active');
+
+    // แสดงพรุ
+    for (let i = 0; i < 50; i++) {
+      createFirework();
+    }
+
+    // หยุดพรุหลังจาก 2 นาที
+    setTimeout(() => {
+      const fireworks = document.querySelectorAll('.firework');
+      fireworks.forEach(firework => firework.remove());
+    }, 9999999999999999);
+  };
+
+  function createFirework() {
+    const firework = document.createElement('div');
+    firework.className = 'firework';
+    firework.style.top = Math.random() * window.innerHeight + 'px';
+    firework.style.left = Math.random() * window.innerWidth + 'px';
+    firework.style.animationDelay = Math.random() + 's';
+    document.body.appendChild(firework);
+
+    // ลบพรุเมื่อ animation สิ้นสุด
+    firework.addEventListener('animationend', () => {
+      firework.remove();
+    });
+
+    //
+  }
+</script>
+
+</body>
+</html>
